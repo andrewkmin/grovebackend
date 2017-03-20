@@ -5,41 +5,48 @@ var User = models.User;
 var Category = models.Category;
 var Friend = models.Friend;
 
-// THE WALL - anything routes below this are protected!
-router.use(function(req, res, next){
-  if (!req.user) {
-    res.redirect('/login');
-  } else {
-    return next();
-  }
-});
+module.exports = function() {
 
-router.post('/categories/new', function(req, res) {
-  var newCategory = new Category({
-    userId: req.user._id,
-    catName: req.body.catName,
-    friends: []
+  // THE WALL - anything routes below this are protected!
+  // router.use(function(req, res, next){
+  //   if (!req.user) {
+  //     res.redirect('/login');
+  //   } else {
+  //     return next();
+  //   }
+  // });
+
+  router.get('/', function(req, res) {
+    res.json('hello');
   });
-});
 
-// add friend to a category
-router.post('/categories/addFriend/:catName', function(req, res) {
-  Category.findOneAndUpdate({
-    userId: req.user._id,
-    catName: req.params.catName,
-    friends: friends.concat(req.body.newFriend)
-    // newFriend should be an object
-  }, function(req, res){
-    res.redirect('/categories/' + req.params.catName)
+  router.post('/categories/new', function(req, res) {
+    var newCategory = new Category({
+      userId: req.user._id,
+      catName: req.body.catName,
+      friends: []
+    });
   });
-});
 
-router.post('/friends/new', function(req, res) {
-  var newFriend = new Friend({
-    userId: req.user._id,
-    fname: req.body.fname,
-    lname: req.body.lname
+  // add friend to a category
+  router.post('/categories/addFriend/:catName', function(req, res) {
+    Category.findOneAndUpdate({
+      userId: req.user._id,
+      catName: req.params.catName,
+      friends: friends.concat(req.body.newFriend)
+      // newFriend should be an object
+    }, function(req, res){
+      res.redirect('/categories/' + req.params.catName)
+    });
   });
-});
 
-module.exports = router;
+  router.post('/friends/new', function(req, res) {
+    var newFriend = new Friend({
+      userId: req.user._id,
+      fname: req.body.fname,
+      lname: req.body.lname
+    });
+  });
+
+  return router;
+};

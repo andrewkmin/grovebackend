@@ -20,7 +20,7 @@ var userSchema = new mongoose.Schema({
   },
   lname: {
     type: String
-  }
+  },
   friends: {
     type: Array
   }
