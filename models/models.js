@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 // Create a connect.js inside the models/ directory that
 // exports your MongoDB URI!
-var connect = "mongodb://<dbuser>:<dbpassword>@ds137100.mlab.com:37100/grovebackend";
+var connect = "mongodb://grove:grove@ds137100.mlab.com:37100/grovebackend";
 // process.env.MONGODB_URI || require('../config.js').MONGODB_URI;
 
 
